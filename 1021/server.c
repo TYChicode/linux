@@ -20,7 +20,7 @@ int main(){
 	server.sin_family = PF_INET;
 	server.sin_addr.s_addr = inet_addr("127.0.0.1");
 	server.sin_port = htons(5678);
-	sock = socket(PF_INET, SOCK_SYREAM, 0);
+	sock = socket(PF_INET, SOCK_STREAM, 0);
 	
 	bind(sock, (struct sockaddr*)&server, sizeof(server));
 	listen(sock, 5);
@@ -31,7 +31,7 @@ int main(){
 		working++;
 		printf("Online connect: %d\n",working);
 		
-		if(pthread_create(&sniffer_thread,0,connection_handler,(void*)&csock)!=0){
+		if(pthread_create(&sniffer_thread,0,connection_handler,(void *)&csock)!=0){
 			perror("Thread creation");
 		}
 		else{
