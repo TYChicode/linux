@@ -1,27 +1,28 @@
+#include <sys/socket.h>
+#include <netinet.h>
+#include <arpa.h>
+#include <unistd.h>
 #include <pthread.h>
 #include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 
-void *thr_fn1(void *arg){
-	printf("thread 1 returning.\n");
-	return((void *)1);
-}
-
-void *thr_fn2(void *arg){
-	printf("thread 2 returning.\n");
-	return((void *)2);
-}
+void *connection_handler(void *);
+int sockList[100] = {0};
+int working = 0;
 
 int main(){
-	pthread_t tid1,tid2;
-	void *tret;
-	pthread_create(&tid1,NULL,thr_fn1,NULL);
-	pthread_create(&tid2,NULL,thr_fn2,NULL);
-	pthread_join(tid2,&tret);
-	printf("thread 2 exit code:%d\n",(int)tret);
-	pthread_join(tid1,&tret);
-	printf("thread 1 exit code:%d\n",(int)tret);
+	struct sockaddr_in server, client;
+	unsigned int sock, csock, addressSize;
+	char buf[256];
+	pthread_t sniffer_thread;
+	
+	bzero(&server,sizeof(server));
+	server.sin_family = PF_INET;
+	server.sin_addr.s_addr = inet_addr("127.0.0.1");
+	server.sin_port = htons(5678);
+	sock = socket(PF_INET, SOCK_SYREAM, 0);
+	
+	blint(sock, (struct sockaddr*));
 	
 	exit(0);
 }
